@@ -1,259 +1,251 @@
-# Technical Architecture Document
+# Technical Architecture Document for RPF Enterprise Application
 
 ## 1. Overview
 
-This document outlines the technical architecture for the enterprise application that will handle job scheduling, assignment, and data collection while integrating with Airtable. The system will provide digitized forms for field inspections and automated report generation.
+The RPF Enterprise Application is a comprehensive system designed to digitize RPF's current workflow and integrate with their existing systems. This document outlines the technical architecture of the system, detailing the components, interactions, and technologies that will be used.
 
-## 2. Architecture Overview
+## 2. Architecture Layers
 
-The application will follow a modern, scalable architecture pattern with the following key components:
+### 2.1 Client Layer
 
-![Architecture Diagram]
+#### Web Application
+- **Technologies**: React.js, HTML5, CSS3, TypeScript
+- **Description**: A responsive web application that works across desktop and mobile browsers
+- **Features**:
+  - Progressive Web App (PWA) capabilities for offline access
+  - Responsive design for mobile and desktop interfaces
+  - Client-side form validation
+  - Local storage for offline data collection
 
-### 2.1 Architecture Layers
+#### Mobile Application
+- **Technologies**: React Native
+- **Description**: Native mobile applications for iOS and Android
+- **Features**:
+  - Offline data collection and storage
+  - Camera integration for photo documentation
+  - GPS integration for location tracking
+  - Push notifications for job assignments and updates
 
-1. **Presentation Layer**
-   - Web Application (Progressive Web App)
-   - Responsive UI for desktop and mobile devices
-   - Based on React.js framework
+### 2.2 API Layer
 
-2. **API Layer**
-   - RESTful API services
-   - Authentication middleware
-   - Request validation
-   - Based on Node.js (Express.js)
+#### API Gateway
+- **Technologies**: Node.js, Express.js
+- **Description**: RESTful API gateway that handles all client requests
+- **Features**:
+  - Authentication and authorization
+  - Request routing
+  - Rate limiting
+  - Request/response transformation
 
-3. **Business Logic Layer**
-   - Job scheduling service
-   - Form management service
-   - Report generation service
-   - Notification service
-   - Integration services
+#### Microservices
+- **Technologies**: Node.js, Express.js, Typescript
+- **Description**: Collection of specialized services that handle specific business functions
+- **Services**:
+  - Authentication Service
+  - Form Service
+  - Project Service
+  - Reporting Service
+  - Integration Service
+  - Notification Service
 
-4. **Data Access Layer**
-   - Airtable integration modules
-   - Local cache management
-   - File storage management
+### 2.3 Data Layer
 
-5. **External Integrations**
-   - Airtable API
-   - Google/Microsoft Authentication
-   - Google Calendar API
-   - PDF Generation Service
+#### Primary Database
+- **Technology**: PostgreSQL
+- **Description**: Relational database for storing structured data
+- **Data**: User profiles, projects, forms, samples, results
 
-## 3. Component Details
+#### Document Store
+- **Technology**: MongoDB
+- **Description**: NoSQL database for storing unstructured data
+- **Data**: Form templates, reports, images, attachments
 
-### 3.1 Frontend Components
+#### Cache
+- **Technology**: Redis
+- **Description**: In-memory data store for caching and session management
+- **Data**: Session data, frequently accessed data
 
-#### 3.1.1 Web Application
-- **Framework**: React.js
-- **State Management**: Redux
-- **UI Library**: Material-UI
-- **Form Management**: Formik with Yup validation
-- **Authentication**: Auth0 SDK (for Google/Microsoft SSO)
-- **API Communication**: Axios
-- **Offline Support**: Service Workers with IndexedDB
+### 2.4 Integration Layer
 
-#### 3.1.2 Mobile Optimized Views
-- **Responsive Design**: Flexbox and CSS Grid
-- **Touch Interactions**: Gesture support
-- **Camera Integration**: Web API for photo capture
-- **GPS Integration**: Geolocation API
+#### Airtable Integration
+- **Technology**: Airtable API, Node.js
+- **Description**: Integration with Airtable for project data
+- **Features**:
+  - Scheduled data synchronization
+  - Real-time data querying
+  - Webhook support for notifications
 
-### 3.2 Backend Components
+#### External Service Integrations
+- **Technologies**: REST APIs, OAuth
+- **Description**: Integrations with external services
+- **Services**:
+  - Google Maps API for location services
+  - Email service for notifications
+  - PDF generation service
 
-#### 3.2.1 API Server
-- **Framework**: Express.js on Node.js
-- **Authentication**: Passport.js with JWT
-- **API Documentation**: Swagger
-- **Validation**: Express Validator
-- **Logging**: Winston
+### 2.5 Security Layer
 
-#### 3.2.2 Service Layer
-- **Job Scheduling Service**: Handles calendar integration and job assignments
-- **Form Service**: Manages dynamic form generation and validation
-- **Report Generation Service**: PDF generation and formatting
-- **Notification Service**: Handles alerts and updates
-- **Integration Service**: Manages Airtable synchronization
+#### Authentication
+- **Technologies**: OAuth 2.0, JWT, SAML
+- **Description**: Authentication mechanisms for user access
+- **Features**:
+  - SSO integration with Google and Microsoft
+  - JWT token management
+  - Multi-factor authentication
 
-#### 3.2.3 Background Processing
-- **Job Queue**: Bull with Redis
-- **Scheduled Tasks**: Node-cron
-- **File Processing**: Sharp for image optimization
+#### Authorization
+- **Technologies**: Role-based access control (RBAC)
+- **Description**: Authorization mechanisms for controlling access to resources
+- **Features**:
+  - Role-based permissions
+  - Resource-level access control
+  - Attribute-based access control
 
-### 3.3 Data Storage
+#### Data Security
+- **Technologies**: TLS, AES-256
+- **Description**: Security mechanisms for data protection
+- **Features**:
+  - Encryption at rest
+  - Encryption in transit
+  - Secure API connections
 
-#### 3.3.1 Primary Data Store
-- **Airtable**: Source of truth for most application data
-- **Synchronization Strategy**: Bi-directional with conflict resolution
+## 3. Deployment Architecture
 
-#### 3.3.2 Local Storage
-- **Relational Database**: PostgreSQL for local caching and extended data
-- **File Storage**: AWS S3 or similar for document and image storage
-- **Cache**: Redis for performance optimization
+### 3.1 Infrastructure
 
-### 3.4 External Integrations
+#### Cloud Provider
+- **Provider**: AWS
+- **Services**:
+  - EC2 for application hosting
+  - S3 for file storage
+  - RDS for relational database
+  - DocumentDB for document storage
+  - ElastiCache for caching
+  - CloudFront for content delivery
 
-#### 3.4.1 Authentication
-- **Identity Providers**: Google Workspace and Microsoft 365
-- **SSO Implementation**: OAuth 2.0 + OpenID Connect
-- **MFA Support**: Via identity providers
+#### Containerization
+- **Technologies**: Docker, Kubernetes
+- **Description**: Containerization for application deployment
+- **Features**:
+  - Container orchestration
+  - Auto-scaling
+  - Self-healing
 
-#### 3.4.2 Calendar Integration
-- **Google Calendar API**: For job scheduling and visualization
-- **Synchronization**: Bi-directional with conflict management
+### 3.2 DevOps
 
-#### 3.4.3 Reporting
-- **PDF Generation**: PDFKit or similar library
-- **Templates**: Customizable templates based on job types
+#### CI/CD
+- **Technologies**: GitHub Actions, Jenkins
+- **Description**: Continuous integration and deployment
+- **Features**:
+  - Automated testing
+  - Automated deployment
+  - Version control
 
-## 4. Cross-Cutting Concerns
+#### Monitoring
+- **Technologies**: Prometheus, Grafana, ELK Stack
+- **Description**: Monitoring and logging
+- **Features**:
+  - Performance monitoring
+  - Error tracking
+  - Log aggregation
+  - Alerting
 
-### 4.1 Security Architecture
+## 4. System Interactions
 
-#### 4.1.1 Authentication & Authorization
-- JSON Web Tokens (JWT) for session management
-- Role-based access control (RBAC)
-- API endpoint protection
+### 4.1 Client-Server Interaction
+- RESTful API calls
+- WebSocket connections for real-time updates
+- Local storage synchronization for offline access
 
-#### 4.1.2 Data Protection
-- TLS/SSL for all communications
-- Data encryption at rest (AES-256)
-- Input sanitization and validation
-- CSRF protection
-- Content Security Policy (CSP)
+### 4.2 Server-Database Interaction
+- ORM for database access
+- Connection pooling
+- Transaction management
 
-#### 4.1.3 Audit & Compliance
-- Comprehensive activity logging
-- Audit trails for sensitive operations
-- Data access auditing
+### 4.3 Server-Integration Interaction
+- Scheduled jobs for Airtable synchronization
+- Webhook handlers for real-time updates
+- API clients for external service integration
 
-### 4.2 Performance Architecture
+## 5. Security Considerations
 
-#### 4.2.1 Caching Strategy
-- Application-level caching
-- Database query optimization
-- CDN for static assets
+### 5.1 Authentication and Authorization
+- SSO integration with Google and Microsoft
+- JWT for API authentication
+- Role-based access control for authorization
 
-#### 4.2.2 Optimization Techniques
-- Lazy loading of components
-- Pagination of large datasets
-- Asynchronous processing for non-critical operations
+### 5.2 Data Protection
+- Encryption at rest for database and file storage
+- TLS for data in transit
+- API key management for external integrations
 
-### 4.3 Reliability Architecture
+### 5.3 Compliance
+- GDPR compliance for personal data
+- Regular security audits
+- Vulnerability scanning
 
-#### 4.3.1 Error Handling
+## 6. Scalability and Performance
+
+### 6.1 Horizontal Scaling
+- Microservice architecture for independent scaling
+- Containerization for easy deployment
+- Load balancing across multiple instances
+
+### 6.2 Performance Optimization
+- Caching for frequently accessed data
+- Database indexing for query optimization
+- Content delivery network for static assets
+
+## 7. Resilience and Reliability
+
+### 7.1 Fault Tolerance
+- Service redundancy
+- Database replication
 - Graceful degradation
-- Comprehensive error logging
-- User-friendly error messages
 
-#### 4.3.2 Backup & Recovery
-- Automated database backups
-- Point-in-time recovery capability
-- Disaster recovery procedures
+### 7.2 Disaster Recovery
+- Regular database backups
+- Multi-region deployment
+- Automated recovery procedures
 
-#### 4.3.3 Monitoring
-- Application performance monitoring
-- Error tracking and alerting
-- Health checks and status pages
+## 8. Maintenance and Updates
 
-### 4.4 Offline Capability Architecture
+### 8.1 Maintenance
+- Automated health checks
+- Scheduled maintenance windows
+- Zero-downtime deployments
 
-#### 4.4.1 Offline Data Storage
-- IndexedDB for client-side storage
-- Background synchronization
-- Conflict resolution strategy
+### 8.2 Updates
+- Versioned APIs
+- Backward compatibility
+- Staged rollouts
 
-#### 4.4.2 Progressive Enhancement
-- Core functionality without JavaScript
-- Graceful handling of connectivity loss
-- Background sync when connectivity returns
+## 9. Technical Stack Summary
 
-## 5. Deployment Architecture
+### 9.1 Frontend
+- React.js/React Native
+- TypeScript
+- HTML5/CSS3
+- Progressive Web App (PWA)
 
-### 5.1 Hosting Model
-
-#### 5.1.1 Application Hosting
-- **Frontend**: CDN-backed static hosting (AWS S3 + CloudFront or similar)
-- **Backend**: Container-based hosting (Docker + Kubernetes or AWS ECS)
-- **Database**: Managed PostgreSQL service
-
-#### 5.1.2 Environment Strategy
-- Development environment
-- Staging/QA environment
-- Production environment
-
-### 5.2 CI/CD Pipeline
-
-#### 5.2.1 Continuous Integration
-- Automated testing
-- Code quality checks
-- Security scanning
-
-#### 5.2.2 Continuous Deployment
-- Automated builds
-- Deployment automation
-- Blue/Green deployment strategy
-
-### 5.3 Scalability Strategy
-
-#### 5.3.1 Horizontal Scaling
-- Stateless application servers
-- Load balancing
-- Autoscaling groups
-
-#### 5.3.2 Resource Optimization
-- Rightsizing of infrastructure
-- Performance monitoring
-- Cost optimization
-
-## 6. Technology Stack Summary
-
-### 6.1 Frontend Technologies
-- React.js
-- Redux
-- Material-UI
-- Service Workers
-- IndexedDB
-
-### 6.2 Backend Technologies
+### 9.2 Backend
 - Node.js
 - Express.js
-- Passport.js
-- Bull Queue
-- Winston Logger
-
-### 6.3 Database Technologies
-- PostgreSQL
-- Redis
-- Airtable API
-
-### 6.4 DevOps Technologies
-- Docker
-- Kubernetes or AWS ECS
-- CI/CD Tools (GitHub Actions, Jenkins, or similar)
-- Terraform for infrastructure as code
-
-### 6.5 Integration Technologies
+- TypeScript
 - RESTful APIs
-- OAuth 2.0
-- WebSockets for real-time notifications
 
-## 7. Technical Constraints and Considerations
+### 9.3 Databases
+- PostgreSQL (Relational)
+- MongoDB (Document Store)
+- Redis (Caching)
 
-### 7.1 Constraints
-- Must maintain integration with existing Airtable structure
-- Must support offline operations in field environments
-- Must adhere to client's security standards
+### 9.4 Infrastructure
+- AWS Cloud Services
+- Docker/Kubernetes
+- CI/CD (GitHub Actions/Jenkins)
+- Monitoring (Prometheus/Grafana/ELK)
 
-### 7.2 Technical Debt Prevention
-- Code quality standards enforcement
-- Comprehensive testing strategy
-- Regular dependency updates
-- Architecture reviews
-
-### 7.3 Future Extensibility
-- Modular architecture
-- API versioning strategy
-- Feature flagging capability
-- Third-party integration framework
+### 9.5 Security
+- OAuth 2.0/JWT
+- HTTPS/TLS
+- RBAC

@@ -1,416 +1,392 @@
-# Screen Breakdown Document
+# Screen Breakdown for RPF Enterprise Application
 
-## 1. Overview
+## 1. Authentication & Onboarding Screens
 
-This document provides a comprehensive breakdown of the screens and user interfaces that will be implemented in the enterprise application for job scheduling, assignment, and data collection. The screens are organized by functional area and include key features, access controls, and interactions.
+### 1.1 Login Screen
+- **Purpose**: Allow users to sign in to the application
+- **Components**:
+  - Email and password input fields
+  - "Sign in with Google" button
+  - "Sign in with Microsoft" button
+  - "Forgot Password" link
+  - Remember me checkbox
+- **Actions**:
+  - Authenticate user credentials
+  - Redirect to dashboard upon success
+  - Show appropriate error messages
 
-## 2. Global Elements
+### 1.2 Forgot Password Screen
+- **Purpose**: Enable users to reset their password
+- **Components**:
+  - Email input field
+  - Submit button
+- **Actions**:
+  - Send password reset email
+  - Confirm email sent
 
-### 2.1 Navigation Structure
+### 1.3 User Profile Setup Screen
+- **Purpose**: Complete user profile information
+- **Components**:
+  - Personal information fields (name, contact details)
+  - Profile picture upload
+  - Job role selection
+  - Notification preferences
+- **Actions**:
+  - Save profile information
+  - Upload profile picture
+  - Set notification preferences
 
-The application will feature a consistent navigation structure throughout:
+## 2. Dashboard Screens
 
-- **Top Navigation Bar**
-  - Application logo and name
-  - Global search functionality
-  - Notifications icon with badge indicator
-  - User profile menu (profile settings, logout)
-  
-- **Side Navigation Menu**
-  - Dashboard link
-  - Jobs & Scheduling section
-  - Forms section
-  - Reports section
-  - Admin panel (for authorized users)
-  
-- **Footer**
-  - Version information
-  - Support contact
-  - Legal information
+### 2.1 Main Dashboard
+- **Purpose**: Provide overview of user's projects and tasks
+- **Components**:
+  - Summary statistics (active projects, pending reports, etc.)
+  - Recent activities feed
+  - Calendar view of scheduled inspections
+  - Quick action buttons (new project, new form, etc.)
+  - Notifications area
+- **Actions**:
+  - Navigate to projects, forms, reports
+  - View activity history
+  - Acknowledge notifications
 
-### 2.2 Authentication Screens
-
-#### 2.2.1 Login Screen
-- Single Sign-On options for Google and Microsoft
-- Remember me functionality
-- Password reset link
-- Session timeout warning
-
-#### 2.2.2 Multi-Factor Authentication
-- MFA challenge screen when required
-- Remember device option
-
-#### 2.2.3 Profile Management
-- View and edit personal information
-- Change password
-- Manage notification preferences
-- View user permissions
-
-## 3. Dashboard Screens
-
-### 3.1 Main Dashboard
-
-#### 3.1.1 Dashboard Overview
-- **Purpose**: Provide at-a-glance information about daily activities and tasks
-- **Access**: All authenticated users
-- **Key Components**:
-  - Upcoming assignments (today and next 7 days)
-  - Recently edited forms and reports
-  - Notifications and alerts
-  - Team activity summary
-  - Quick action buttons (create new job, start form, etc.)
-
-#### 3.1.2 Personal Calendar Widget
-- **Purpose**: Show user's assigned jobs in calendar format
-- **Access**: All authenticated users
-- **Key Components**:
-  - Daily, weekly, and monthly views
-  - Color-coding by job type
-  - Quick preview of job details
-  - Direct links to job information
-
-#### 3.1.3 Task Summary Widget
-- **Purpose**: Display pending tasks requiring attention
-- **Access**: All authenticated users
-- **Key Components**:
-  - Pending form submissions
-  - Reports awaiting review
-  - Unassigned jobs
-  - Upcoming deadlines
-
-### 3.2 Team Dashboard
-
-#### 3.2.1 Team Overview
-- **Purpose**: Provide managers with team workload visibility
-- **Access**: Managers and supervisors
-- **Key Components**:
-  - Staff availability
-  - Assignments by team member
-  - Productivity metrics
-  - Pending approval items
-
-## 4. Job Management Screens
-
-### 4.1 Job Listing
-
-#### 4.1.1 Jobs Overview
-- **Purpose**: Browse and search through all jobs
-- **Access**: All authenticated users (filtered by permissions)
-- **Key Components**:
-  - Filterable/sortable job list
-  - Status indicators
+### 2.2 Project Dashboard
+- **Purpose**: View all projects assigned to user or team
+- **Components**:
+  - Project list with filtering options
+  - Project status indicators
   - Search functionality
-  - Batch operations for managers
-  - Export options
+  - Sorting options (by date, client, status)
+  - Project type indicators
+- **Actions**:
+  - Filter and sort projects
+  - Search for specific projects
+  - Select project for detailed view
+  - Export project list
 
-#### 4.1.2 Job Calendar
-- **Purpose**: Visualize job schedule in calendar format
-- **Access**: All authenticated users
-- **Key Components**:
-  - Multi-view calendar (day, week, month)
-  - Drag-and-drop rescheduling (for authorized users)
-  - Resource view (by staff member)
-  - Location view (geographic grouping)
-  - Integration with Google Calendar
+## 3. Project Management Screens
 
-### 4.2 Job Details
+### 3.1 Project Details Screen
+- **Purpose**: View comprehensive information about a specific project
+- **Components**:
+  - Project header with key information (number, client, location)
+  - Project description
+  - Status timeline
+  - Associated forms and reports
+  - Team members assigned
+  - Map view of location
+- **Actions**:
+  - Update project status
+  - Access related forms
+  - Generate reports
+  - Assign team members
 
-#### 4.2.1 Job Information
-- **Purpose**: Display comprehensive job details
-- **Access**: All authenticated users (with appropriate permissions)
-- **Key Components**:
-  - Client information
-  - Location details with map
-  - Job type and specifications
-  - Assignment history
-  - Related documents and forms
-  - Timeline of activities
+### 3.2 New Project Screen
+- **Purpose**: Create a new project manually (fallback option)
+- **Components**:
+  - Project details form
+  - Client selection
+  - Location input with map integration
+  - Project type selection
+  - Required forms checklist
+- **Actions**:
+  - Create new project record
+  - Associate with client
+  - Set initial project status
 
-#### 4.2.2 Job Assignment
-- **Purpose**: Manage staff assignments for jobs
-- **Access**: Managers and schedulers
-- **Key Components**:
-  - Staff availability view
-  - Skill matching indicators
-  - Assignment history
-  - Notification options
-  - Conflict detection
+### 3.3 Project Planning Screen
+- **Purpose**: Plan inspection details and requirements
+- **Components**:
+  - Equipment checklist based on project type
+  - Required forms list
+  - Travel planning with map and directions
+  - Team assignment section
+  - Schedule selection
+- **Actions**:
+  - Mark equipment as packed
+  - Assign team members
+  - Schedule inspection date/time
+  - Calculate travel requirements
 
-#### 4.2.3 Job Creation/Editing
-- **Purpose**: Create new jobs or edit existing ones
-- **Access**: Managers and schedulers
-- **Key Components**:
-  - Client selection/creation
-  - Job type configuration
-  - Required forms selection
-  - Scheduling options
-  - Special requirements input
-  - Assignment options
+## 4. Form Management Screens
 
-## 5. Digital Forms Screens
-
-### 5.1 Form Listings
-
-#### 5.1.1 Available Forms
-- **Purpose**: Browse available form templates
-- **Access**: All authenticated users
-- **Key Components**:
-  - Form template categories
-  - Search and filter options
+### 4.1 Form Library Screen
+- **Purpose**: Access all available form templates
+- **Components**:
+  - Form categories
+  - Search functionality
   - Recently used forms
-  - Favorite forms
   - Form status indicators
+- **Actions**:
+  - Search and filter forms
+  - Select form template
+  - View form details
 
-#### 5.1.2 My Forms
-- **Purpose**: Access forms assigned to the user
-- **Access**: All authenticated users
-- **Key Components**:
-  - Draft forms
-  - Submitted forms
-  - Forms requiring revision
-  - Completed forms
-  - Status indicators
+### 4.2 Form Selection Screen
+- **Purpose**: Select appropriate form for current project
+- **Components**:
+  - Project-specific recommended forms
+  - Form descriptions
+  - Required vs. optional indicators
+- **Actions**:
+  - Select forms for completion
+  - View form requirements
+  - Start new form
 
-### 5.2 Form Builder and Management
-
-#### 5.2.1 Form Builder
-- **Purpose**: Create and edit form templates
-- **Access**: Form administrators
-- **Key Components**:
+### 4.3 Form Editor Screen
+- **Purpose**: Create or modify form templates (admin only)
+- **Components**:
   - Drag-and-drop form builder
   - Field type selection
-  - Validation rules
-  - Conditional logic
-  - Section organization
-  - Preview functionality
+  - Conditional logic editor
+  - Validation rules editor
+- **Actions**:
+  - Create new form templates
+  - Modify existing templates
+  - Set validation rules
+  - Establish conditional logic
 
-#### 5.2.2 Form Template Management
-- **Purpose**: Manage form templates
-- **Access**: Form administrators
-- **Key Components**:
-  - Version history
-  - Archive/activate controls
-  - Copy functionality
-  - Usage statistics
-  - Template categorization
+## 5. Data Collection Screens
 
-### 5.3 Form Completion
+### 5.1 Bulk Sampling Form
+- **Purpose**: Record bulk material sampling information
+- **Components**:
+  - Auto-populated project fields
+  - Material type selection
+  - Condition assessment
+  - Location fields
+  - Quantity estimation
+  - Sample ID generator
+  - Photo attachment
+- **Actions**:
+  - Record sample information
+  - Take and attach photos
+  - Generate unique sample IDs
+  - Save partial forms for later completion
 
-#### 5.3.1 Form Fill Interface
-- **Purpose**: Complete digital forms
-- **Access**: All authenticated users
-- **Key Components**:
-  - Section navigation
-  - Field validation indicators
-  - Save draft functionality
-  - Required field tracking
-  - Progress indicator
-  - Photo/document attachment
-  - Digital signature capture
+### 5.2 HMI Inventory Form
+- **Purpose**: Document hazardous materials inventory
+- **Components**:
+  - Material category selection
+  - Location mapping
+  - Condition assessment
+  - Quantity estimation
+  - Risk assessment
+  - Photo attachment
+- **Actions**:
+  - Document material presence
+  - Assess and record conditions
+  - Attach supporting photos
+  - Mark areas on floor plan
 
-#### 5.3.2 Offline Form Access
-- **Purpose**: Access and complete forms without internet connection
-- **Access**: All authenticated users
-- **Key Components**:
-  - Offline form list
-  - Sync status indicators
-  - Automatic sync when connection restored
-  - Local storage management
-  - Conflict resolution interface
+### 5.3 XRF Testing Form
+- **Purpose**: Record XRF testing results
+- **Components**:
+  - Testing location fields
+  - Reading values input
+  - Material substrate selection
+  - Color/condition documentation
+  - Calibration verification
+  - Result interpretation
+- **Actions**:
+  - Record test results
+  - Verify calibration
+  - Document testing conditions
+  - Flag concerning results
 
-## 6. Report Generation Screens
+### 5.4 General Service Log
+- **Purpose**: Document general inspection activities
+- **Components**:
+  - Activity type selection
+  - Time tracking
+  - Location documentation
+  - Observations text area
+  - Action items
+  - Follow-up requirements
+- **Actions**:
+  - Log inspection activities
+  - Record observations
+  - Document recommended actions
+  - Set follow-up requirements
 
-### 6.1 Report Templates
+## 6. Results Management Screens
 
-#### 6.1.1 Template Listing
-- **Purpose**: Browse and select report templates
-- **Access**: All authenticated users
-- **Key Components**:
+### 6.1 Sample Tracking Screen
+- **Purpose**: Track samples and their laboratory results
+- **Components**:
+  - Sample list with status indicators
+  - Lab selection
+  - Result input fields
+  - Result status (positive/negative)
+  - Date tracking (collected, submitted, results received)
+- **Actions**:
+  - Update sample status
+  - Record lab results
+  - Flag positive results
+  - Link results to samples
+
+### 6.2 Results Import Screen
+- **Purpose**: Import laboratory results in batch
+- **Components**:
+  - File upload area
+  - Sample ID mapping
+  - Result preview
+  - Validation warnings
+- **Actions**:
+  - Upload results file
+  - Map imported data to samples
+  - Validate and confirm import
+  - Handle exceptions
+
+### 6.3 Results Review Screen
+- **Purpose**: Review and verify laboratory results
+- **Components**:
+  - Results summary by project
+  - Positive results highlighting
+  - Verification checklist
+  - Notes section
+- **Actions**:
+  - Review result accuracy
+  - Verify completeness
+  - Add notes or observations
+  - Approve results for reporting
+
+## 7. Report Generation Screens
+
+### 7.1 Report Template Selection
+- **Purpose**: Select appropriate report template
+- **Components**:
   - Template categories
   - Preview thumbnails
-  - Usage frequency
-  - Template search
+  - Template descriptions
+  - Recently used templates
+- **Actions**:
+  - Select report template
+  - View template details
+  - Start report generation
 
-#### 6.1.2 Template Editor
-- **Purpose**: Create and edit report templates
-- **Access**: Report administrators
-- **Key Components**:
-  - Layout designer
-  - Field mapping tools
-  - Header/footer configuration
-  - Style settings
-  - Dynamic content rules
-  - Preview functionality
+### 7.2 Report Configuration
+- **Purpose**: Configure report settings before generation
+- **Components**:
+  - Report sections toggle
+  - Optional content selection
+  - Client information verification
+  - Appendix configuration
+- **Actions**:
+  - Select report sections
+  - Configure report options
+  - Verify client information
+  - Set report parameters
 
-### 6.2 Report Generation
+### 7.3 Report Preview & Edit
+- **Purpose**: Preview and modify generated report
+- **Components**:
+  - Report preview pane
+  - Section navigation
+  - Inline text editor
+  - Table editor
+  - Image placement editor
+- **Actions**:
+  - Preview report sections
+  - Make text edits
+  - Adjust tables and data
+  - Reposition images
+  - Add annotations
 
-#### 6.2.1 Report Creation
-- **Purpose**: Generate reports from completed forms
-- **Access**: All authenticated users with appropriate permissions
-- **Key Components**:
-  - Source form selection
-  - Template selection
-  - Data verification
-  - Preview generation
-  - Edit capabilities
-  - Generation options
+### 7.4 Report Approval & Submission
+- **Purpose**: Review, approve, and submit final report
+- **Components**:
+  - Final report preview
+  - Approval checklist
+  - Digital signature area
+  - Submission options
+  - Distribution list
+- **Actions**:
+  - Complete approval checklist
+  - Apply digital signature
+  - Select distribution method
+  - Submit final report
 
-#### 6.2.2 Batch Report Processing
-- **Purpose**: Generate multiple reports simultaneously
-- **Access**: Managers and report administrators
-- **Key Components**:
-  - Batch selection interface
-  - Template assignment
-  - Processing status
-  - Error handling
-  - Download options
+## 8. Administration Screens
 
-### 6.3 Report Management
-
-#### 6.3.1 Report Library
-- **Purpose**: Store and organize generated reports
-- **Access**: All authenticated users (filtered by permissions)
-- **Key Components**:
-  - Report search and filters
-  - Version tracking
-  - Status indicators
-  - Approval workflow
-  - Download/share options
-  - Archiving tools
-
-#### 6.3.2 Report Approval Interface
-- **Purpose**: Review and approve generated reports
-- **Access**: Managers and designated approvers
-- **Key Components**:
-  - Side-by-side comparison with source data
-  - Annotation tools
-  - Approval/rejection workflow
-  - Revision requests
-  - Digital signing
-
-## 7. Administration Screens
-
-### 7.1 User Management
-
-#### 7.1.1 User Directory
-- **Purpose**: Manage system users
-- **Access**: Administrators
-- **Key Components**:
-  - User listing with search/filter
-  - User creation interface
-  - Bulk user operations
-  - Status management
-  - Directory sync settings
-
-#### 7.1.2 Role Management
-- **Purpose**: Define and assign user roles
-- **Access**: Administrators
-- **Key Components**:
-  - Role definition interface
+### 8.1 User Management
+- **Purpose**: Manage system users and permissions
+- **Components**:
+  - User list with roles
+  - User creation form
   - Permission assignment
-  - Role hierarchy
-  - User-role assignments
-  - Permission auditing
+  - Status controls (active/inactive)
+- **Actions**:
+  - Create new users
+  - Modify user roles
+  - Set permissions
+  - Activate/deactivate users
 
-### 7.2 System Configuration
+### 8.2 System Configuration
+- **Purpose**: Configure system settings
+- **Components**:
+  - Airtable integration settings
+  - Notification preferences
+  - Default settings
+  - System branding
+- **Actions**:
+  - Configure integration parameters
+  - Set system defaults
+  - Customize notifications
+  - Apply branding elements
 
-#### 7.2.1 Airtable Integration Settings
-- **Purpose**: Configure Airtable connection
-- **Access**: System administrators
-- **Key Components**:
-  - API configuration
-  - Field mapping interface
-  - Sync settings
-  - Test connection tools
-  - Sync history and logs
-
-#### 7.2.2 Notification Settings
-- **Purpose**: Configure system notifications
-- **Access**: System administrators
-- **Key Components**:
-  - Notification templates
-  - Delivery method settings
-  - Schedule rules
-  - User preference defaults
-  - Test notification tools
-
-### 7.3 Audit and Monitoring
-
-#### 7.3.1 Audit Logs
-- **Purpose**: Review system activity logs
-- **Access**: Security administrators
-- **Key Components**:
-  - Searchable log interface
-  - Filter by action, user, date
-  - Export functionality
-  - Alert configuration
-  - Retention settings
-
-#### 7.3.2 System Status
-- **Purpose**: Monitor system health
-- **Access**: System administrators
-- **Key Components**:
-  - Service status dashboard
-  - Integration health monitors
+### 8.3 Analytics Dashboard
+- **Purpose**: View system usage and performance metrics
+- **Components**:
+  - Usage statistics
   - Performance metrics
-  - Error rate tracking
-  - Sync status indicators
+  - User activity reports
+  - Project completion trends
+- **Actions**:
+  - View analytics data
+  - Export reports
+  - Set date ranges
+  - Filter by categories
 
-## 8. Mobile-Specific Screens
+## 9. Mobile-Specific Screens
 
-### 8.1 Mobile Dashboard
+### 9.1 Offline Mode Indicator
+- **Purpose**: Indicate offline status and sync queue
+- **Components**:
+  - Connection status indicator
+  - Pending sync count
+  - Last sync timestamp
+  - Manual sync button
+- **Actions**:
+  - View sync status
+  - Initiate manual sync
+  - View offline data
 
-#### 8.1.1 Mobile Home
-- **Purpose**: Provide optimized view for field staff
-- **Access**: All authenticated users
-- **Key Components**:
-  - Today's assignments
-  - Form shortcuts
-  - Quick capture tools
-  - Offline status indicator
-  - Sync management
+### 9.2 Photo Capture Screen
+- **Purpose**: Capture and annotate photos in the field
+- **Components**:
+  - Camera viewfinder
+  - Capture button
+  - Gallery access
+  - Annotation tools
+  - Sample/location tagging
+- **Actions**:
+  - Capture photos
+  - Add annotations
+  - Tag with sample ID
+  - Associate with location
 
-### 8.2 Field Data Collection
-
-#### 8.2.1 Field Form Interface
-- **Purpose**: Optimized form filling for mobile devices
-- **Access**: Field staff
-- **Key Components**:
-  - Touch-optimized controls
-  - Camera integration
-  - GPS location capture
-  - Voice-to-text input options
-  - Data saving optimizations
-
-#### 8.2.2 Photo Capture
-- **Purpose**: Capture and manage photos for forms
-- **Access**: Field staff
-- **Key Components**:
-  - Camera access
-  - Photo annotation tools
-  - Image organization
-  - Batch upload when online
-  - Storage optimization
-
-## 9. Responsive Design Considerations
-
-All screens will be designed with responsive principles to ensure usability across device sizes:
-
-### 9.1 Desktop Optimizations
-- Multi-column layouts
-- Advanced filtering and bulk operations
-- Keyboard shortcuts
-- Detailed data visualization
-
-### 9.2 Tablet Optimizations
-- Touch-friendly controls
-- Simplified layouts
-- Contextual menus
-- Gesture support
-
-### 9.3 Mobile Optimizations
-- Single-column layouts
-- Bottom navigation options
-- Limited data entry forms
-- Offline-first approach
-- Reduced bandwidth usage
+### 9.3 Location Marking Screen
+- **Purpose**: Mark and record precise locations
+- **Components**:
+  - Interactive map
+  - GPS coordinates
+  - Location search
+  - Marking tools
+  - Floor plan overlay option
+- **Actions**:
+  - Mark sampling locations
+  - Record GPS coordinates
+  - Select from floor plan
+  - Add location notes

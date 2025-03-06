@@ -1,129 +1,117 @@
-# Enterprise Application Requirements Document
+# Requirements for Zerion/RPF Enterprise Application
 
-## 1. Introduction
+Based on the meeting notes and transcript, I'll outline a comprehensive set of requirements for the enterprise application that will digitize RPF's current workflow and integrate with their existing systems.
 
-This document outlines the requirements for the development of an enterprise application for job scheduling, assignment, and data collection to streamline workflow processes currently managed through Airtable and paper forms.
+## 1. Authentication Requirements
 
-## 2. Project Overview
+### 1.1 Single Sign-On (SSO)
+- Implement Google SSO for user authentication
+- Implement Microsoft SSO for user authentication
+- Support role-based access control with different permission levels (admin, inspector, manager)
+- Enable secure password management and recovery
 
-The application will serve as a centralized portal that integrates with the existing Airtable system while digitizing the current pen-and-paper data collection forms used during inspections. The solution aims to automate report generation, reducing manual data entry and report creation time.
+## 2. Integration Requirements
 
-## 3. Authentication Requirements
+### 2.1 Airtable Integration
+- Maintain Airtable as the primary data source for job information
+- Establish secure API connections to pull project data from Airtable
+- Support daily synchronization to retrieve newly opened projects
+- Enable querying by project number to retrieve associated job details
 
-### 3.1 Single Sign-On (SSO)
-- **SSO Integration**: Implement single sign-on capabilities using both Google and Microsoft authentication services.
-- **User Authentication Flow**: Users should be able to sign in seamlessly using their existing Google Workspace or Microsoft 365 credentials.
-- **Session Management**: Implement secure session handling with appropriate timeout mechanisms.
-- **Multi-Factor Authentication**: Support MFA where available through the SSO providers.
+### 2.2 Data Import/Export
+- Allow for daily batch import of new projects via Excel if needed
+- Generate PDF reports that can be shared with clients
+- Support export of collected data in various formats
 
-### 3.2 User Management
-- **Role-Based Access Control**: Define and implement user roles with appropriate permissions.
-- **User Provisioning**: Integrate with Google/Microsoft directory services for automatic user provisioning and deprovisioning.
-- **Profile Management**: Allow users to view and update their profile information.
+## 3. Form Digitization Requirements
 
-## 4. Functional Requirements
+### 3.1 Field Data Collection
+- Digitize current pen-and-paper forms for field use:
+  - Bulk sampling forms
+  - HMI inventory forms
+  - XRF testing forms
+  - General service logs
+- Support different form types based on job classification:
+  - Asbestos-only surveys
+  - Full hazmat inspections
+  - Spot surveys
 
-### 4.1 Airtable Integration
-- **Data Source Integration**: Use Airtable as the primary data source for the application.
-- **Bi-directional Sync**: Implement real-time synchronization between the application and Airtable.
-- **Data Mapping**: Map Airtable fields to application entities maintaining data integrity.
+### 3.2 Form Functionality
+- Auto-populate forms with job information from Airtable (job number, client, location)
+- Include field validation to ensure complete and accurate data collection
+- Support offline data collection with synchronization when connectivity is restored
+- Enable photo/image attachment for visual documentation
+- Implement conditional logic to show/hide form sections based on job type
 
-### 4.2 Job Scheduling and Assignment
-- **Calendar Integration**: Integrate with Google Calendar for job scheduling.
-- **Assignment Management**: Provide interface for assigning staff to jobs.
-- **Schedule Visualization**: Display daily, weekly, and monthly job schedules.
-- **Notification System**: Implement notifications for new assignments and schedule changes.
+## 4. Workflow Management Requirements
 
-### 4.3 Digital Forms
-- **Form Digitization**: Convert all existing paper forms into digital formats.
-- **Dynamic Form Generation**: Generate appropriate forms based on job type (e.g., asbestos only, full hazmat).
-- **Offline Capability**: Allow forms to be filled out in the field, even without internet connectivity.
-- **Photo/Document Attachment**: Enable attachment of photos and documents to form submissions.
-- **Data Validation**: Implement field-level validation to ensure data integrity.
+### 4.1 Job Preparation
+- Display job details, location, and inspection requirements
+- Provide checklists for equipment and forms needed based on job type
+- Calculate travel distance and estimated arrival times
 
-### 4.4 Report Generation
-- **Automated Report Creation**: Auto-populate reports with data collected from digital forms.
-- **PDF Generation**: Generate finalized reports in PDF format.
-- **Report Templates**: Support multiple report templates based on job type.
-- **Report Approval Workflow**: Implement review and approval process for generated reports.
-- **Report Storage and Retrieval**: Store and organize generated reports for easy retrieval.
+### 4.2 Inspection Process
+- Guide inspectors through appropriate inspection protocols
+- Track sample collection with unique identifiers
+- Record material conditions, locations, and quantities
+- Document sampling methods and observations
 
-## 5. Non-Functional Requirements
+### 4.3 Results Management
+- Record laboratory results for collected samples
+- Flag positive/negative results
+- Link lab data to collected samples
 
-### 5.1 Performance
-- **Response Time**: The application should respond to user interactions within 2 seconds.
-- **Concurrent Users**: Support at least 50 concurrent users without degradation in performance.
-- **Form Submission**: Digital form submissions should process within 5 seconds.
+## 5. Report Generation Requirements
 
-### 5.2 Security
-- **Data Encryption**: Implement encryption for data in transit and at rest.
-- **Access Controls**: Enforce principle of least privilege for all system functions.
-- **Audit Logging**: Maintain comprehensive logs of all system activities.
-- **Compliance**: Ensure compliance with relevant data protection regulations.
+### 5.1 Automated Reporting
+- Auto-generate reports based on field-collected data and lab results
+- Support multiple report templates based on job type (full hazmat, asbestos-only, etc.)
+- Automatically populate tables with sample data, locations, and results
+- Include conditional sections based on findings (positive/negative results)
 
-### 5.3 Usability
-- **Intuitive Interface**: Design an intuitive, user-friendly interface requiring minimal training.
-- **Mobile Responsiveness**: Ensure the application functions well on mobile devices for field use.
-- **Accessibility**: Comply with WCAG 2.1 AA accessibility standards.
-
-### 5.4 Reliability
-- **Availability**: The system should maintain 99.9% uptime during business hours.
-- **Backup and Recovery**: Implement automated backup procedures and disaster recovery plans.
-- **Error Handling**: Provide clear error messages and recovery paths for common issues.
+### 5.2 Report Customization
+- Allow for manual adjustments and additions to auto-generated reports
+- Support review and approval workflow before final submission
+- Enable digital signature capabilities for report certification
 
 ## 6. Technical Requirements
 
-### 6.1 Architecture
-- **Hosting**: Define appropriate hosting solution based on final application complexity.
-- **Integration Architecture**: Design API-based integration with Airtable and other systems.
-- **Scalability**: Implement architecture that can scale with increasing users and data volume.
+### 6.1 Platform Compatibility
+- Function on mobile devices for field use (iOS and Android)
+- Support desktop access for office-based tasks
+- Optimize interface for both touchscreen and keyboard/mouse input
 
-### 6.2 Maintenance
-- **Maintenance Engine**: Incorporate the built-in maintenance engine mentioned in the meeting.
-- **Documentation**: Provide comprehensive technical and user documentation.
-- **Code Quality**: Ensure high-quality, maintainable code generated with AI assistance.
+### 6.2 Performance and Reliability
+- Operate in areas with limited connectivity
+- Maintain data integrity through synchronization protocols
+- Implement regular data backup mechanisms
 
-## 7. Deliverables
+### 6.3 Security
+- Encrypt all data at rest and in transit
+- Implement secure API connections to third-party services
+- Comply with relevant data protection regulations
 
-### 7.1 Development Process
-- **Wireframes**: Initial wireframes depicting application design and functionality.
-- **Development Updates**: Regular updates on development progress.
-- **Collaborative Development**: Opportunities for adjustment and feedback during development.
+## 7. Ownership and Maintenance
 
-### 7.2 Final Deliverables
-- **Completed Application**: Fully functional application meeting all requirements.
-- **Source Code**: Complete source code owned by the client.
-- **Documentation**: User manuals and technical documentation.
-- **Training Materials**: Materials for training staff on using the new application.
+### 7.1 Software Ownership
+- The completed application will be owned by RPF
+- No ongoing user licensing fees
 
-## 8. Project Timeline and Cost
+### 7.2 Maintenance and Updates
+- Include AI-driven maintenance engine for automatic updates
+- Support for ongoing operating system and security updates
+- System adaptability for future workflow changes
 
-### 8.1 Timeline
-- **Wireframe Development**: To be determined after initial consultation.
-- **Development Phase**: To be determined after wireframe approval.
-- **Testing and Deployment**: To be determined after development planning.
+## 8. Project Deliverables
 
-### 8.2 Cost Structure
-- **Initial Consulting Fee**: $3,000 for wireframe development.
-- **Final Development Cost**: To be determined based on wireframe complexity and finalized requirements.
-- **Ownership Model**: One-time payment, with client owning the final application.
-- **Maintenance**: No ongoing annual maintenance costs.
+### 8.1 Initial Phase
+- Wireframes and visual prototype ($3,000 consulting fee)
+- Detailed technical specifications
+- Final cost estimate for complete development
 
-## 9. Assumptions and Constraints
+### 8.2 Final Deliverables
+- Fully functional application meeting all requirements
+- Documentation and training materials
+- Source code and ownership transfer
 
-### 9.1 Assumptions
-- Airtable will continue to be the primary data storage solution.
-- Users have access to Google or Microsoft accounts for SSO functionality.
-- Internet connectivity is available for most, but not all, field operations.
-
-### 9.2 Constraints
-- The application must integrate with existing Airtable setup without requiring significant changes.
-- The system must be intuitive enough for users familiar with Airtable's interface.
-- Development must stay within budget parameters to be established after wireframing.
-
-## 10. Approval and Sign-off
-
-This requirements document is subject to review and approval by all stakeholders before proceeding with development.
-
-- **Client Approval**: ___________________________ Date: _______________
-- **Developer Approval**: ________________________ Date: _______________
+This requirements document outlines the foundational elements needed for the custom application based on the meeting discussion. The document can be refined during the wireframing process to ensure all specific needs are addressed.

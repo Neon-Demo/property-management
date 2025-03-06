@@ -1,81 +1,133 @@
-# Greenhouse Management System
+# RPF Enterprise Application
 
-Enterprise application for job scheduling, assignment, and data collection to streamline workflow processes currently managed through Airtable and paper forms.
+A comprehensive system designed to digitize RPF's current workflow and integrate with their existing systems. This application enables field inspectors to collect data, generate reports, and manage environmental inspection projects.
 
 ## Features
 
-- Single Sign-On (SSO) with Google and Microsoft authentication
-- Job scheduling and assignment with calendar integration
-- Digital forms with offline capability
-- Automated report generation from collected data
-- Integration with Airtable as primary data store
+- **Authentication & User Management**
+  - SSO with Google and Microsoft
+  - Role-based access control
+  - Profile management
 
-## Technology Stack
+- **Project Management**
+  - Create and view projects
+  - Assign team members
+  - Track project status
 
-- **Frontend**: Next.js, React, TypeScript, Material-UI
-- **State Management**: Redux Toolkit
-- **Form Handling**: Formik with Yup validation
-- **API**: RESTful API with Axios for HTTP requests
-- **Authentication**: JWT-based authentication with SSO support
+- **Form Management**
+  - Multiple form templates
+  - Online/offline form completion
+  - Photo and location attachment
+
+- **Sample Management**
+  - Sample tracking
+  - Lab results integration
+  - Bulk sample import
+
+- **Report Generation**
+  - Customizable templates
+  - PDF export
+  - Digital signing
+
+- **Integration**
+  - Airtable integration
+  - API for third-party services
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js 14.0 or higher
 - npm or yarn
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd greenhouse-management-system
+git clone https://github.com/your-org/rpf-enterprise.git
+cd rpf-enterprise
 ```
 
-2. Install dependencies
+2. Install dependencies:
 ```bash
 npm install
-# or
-yarn install
 ```
 
-3. Run the development server
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
+Edit `.env.local` with your configuration
+
+4. Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+The application will be available at `http://localhost:3000`
+
+### Building for Production
+
+```bash
+npm run build
+npm start
+```
+
+## Project Structure
+
+```
+/src
+  /app             # App router pages and layouts
+  /components      # Reusable components
+    /layout        # Layout components
+    /ui            # UI components
+    /forms         # Form components
+  /services        # API services
+  /store           # Redux store and slices
+  /types           # TypeScript types
+  /hooks           # Custom React hooks
+  /utils           # Utility functions
+  /styles          # Global styles
+/public            # Static assets
+```
+
+## Authentication
+
+The application uses NextAuth.js for authentication with the following providers:
+
+- Google OAuth
+- Microsoft OAuth
+- Demo login (for development purposes)
+
+To configure authentication:
+
+1. Create OAuth credentials with Google and Microsoft
+2. Add the credentials to your `.env.local` file
+3. Set up the callback URLs in your OAuth providers:
+   - Google: `http://localhost:3000/api/auth/callback/google`
+   - Microsoft: `http://localhost:3000/api/auth/callback/microsoft`
+
+## Demo Login
+
+For testing purposes, you can use the demo login option on the login page. This does not require any OAuth configuration and lets you explore the application with a test user.
 
 ## Available Scripts
 
 - `npm run dev` - Run development server
 - `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm test` - Run all tests
-- `npm test -- -t "test name"` - Run specific test
+- `npm start` - Start production server
+- `npm test` - Run tests
 - `npm run lint` - Run ESLint
 
-## Project Structure
+## Offline Support
 
-- `/src/components` - React components
-- `/src/hooks` - Custom React hooks
-- `/src/pages` - Next.js pages and API routes
-- `/src/services` - API services
-- `/src/store` - Redux store and slices
-- `/src/styles` - Global styles and theme
-- `/src/types` - TypeScript type definitions
-- `/src/utils` - Utility functions
+This application features offline support for field work:
 
-## Testing Authentication
-
-The application uses Single Sign-On (SSO) with Google and Microsoft. For testing and demonstration purposes, there are two ways to access the system:
-
-1. **Demo Login**: Click the "Login as Demo User" button to instantly access the system with a demo account (admin privileges)
-2. **SSO Login**: Use the Google or Microsoft sign-in buttons (these use mock implementations in the development environment)
+- Forms can be filled out offline
+- Data is stored locally and synchronized when online
+- Photos can be captured and stored locally
+- Automatic conflict resolution for data syncing
 
 ## License
 
-This project is licensed under the ISC License.
+This project is proprietary and confidential. All rights reserved.

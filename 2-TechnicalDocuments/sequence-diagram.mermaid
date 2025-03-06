@@ -1,75 +1,149 @@
 sequenceDiagram
-    actor Admin
-    actor FieldUser
-    participant ClientApp as Client Application
-    participant APIServer as API Server
-    participant AirtableAPI as Airtable API
-    participant StorageS3 as S3 Storage
-    participant AuthService as Auth Service (SSO)
-    participant PDFService as PDF Generation Service
-    participant NotifService as Notification Service
-    participant GoogleCal as Google Calendar API
-
-    %% Authentication Flow
-    FieldUser->>ClientApp: Navigate to application
-    ClientApp->>AuthService: Initiate SSO login
-    AuthService-->>FieldUser: Present login options
-    FieldUser->>AuthService: Authenticate with Google/Microsoft
-    AuthService->>APIServer: Return auth token
-    APIServer-->>ClientApp: Store JWT token
-    APIServer->>NotifService: Get user notifications
-    NotifService-->>ClientApp: Return notifications
-
-    %% Job Assignment Flow
-    Admin->>ClientApp: Create new job
-    ClientApp->>APIServer: POST /jobs
-    APIServer->>AirtableAPI: Create job record
-    AirtableAPI-->>APIServer: Return job record
-    APIServer->>GoogleCal: Create calendar event
-    APIServer->>NotifService: Send assignment notification
-    NotifService-->>FieldUser: Notify of new assignment
-    APIServer-->>ClientApp: Return job details
-    ClientApp-->>Admin: Display job confirmation
-
-    %% Form Completion Flow (with offline support)
-    FieldUser->>ClientApp: Open assigned job
-    ClientApp->>APIServer: GET /jobs/{jobId}
-    APIServer-->>ClientApp: Return job details
-    ClientApp->>APIServer: GET /forms/templates
-    APIServer-->>ClientApp: Return required form templates
-    Note over ClientApp: Store forms locally
-    Note over FieldUser,ClientApp: User goes offline
-    FieldUser->>ClientApp: Fill out inspection form
-    Note over ClientApp: Store in IndexedDB
-    FieldUser->>ClientApp: Take photos
-    Note over ClientApp: Store photos locally
-    Note over FieldUser,ClientApp: User comes back online
-    ClientApp->>APIServer: POST /forms
-    APIServer->>AirtableAPI: Create form record
-    APIServer-->>ClientApp: Return form ID
-    ClientApp->>APIServer: POST /forms/{formId}/attachments
-    ClientApp->>StorageS3: Upload photos
-    StorageS3-->>APIServer: Return file URLs
-    APIServer->>AirtableAPI: Update form with attachments
-    ClientApp->>APIServer: POST /forms/{formId}/submit
-    APIServer->>AirtableAPI: Update form status
-    APIServer->>NotifService: Send completion notification
-    NotifService-->>Admin: Notify form completion
-
-    %% Report Generation Flow
-    Admin->>ClientApp: Generate report
-    ClientApp->>APIServer: POST /reports
-    APIServer->>AirtableAPI: Get form data
-    AirtableAPI-->>APIServer: Return form data
-    APIServer->>PDFService: Generate PDF report
-    PDFService-->>APIServer: Return generated PDF
-    APIServer->>StorageS3: Store PDF file
-    StorageS3-->>APIServer: Return file URL
-    APIServer->>AirtableAPI: Create report record
-    APIServer-->>ClientApp: Return report details
-    ClientApp-->>Admin: Display report preview
-    Admin->>ClientApp: Approve report
-    ClientApp->>APIServer: POST /reports/{reportId}/approve
-    APIServer->>AirtableAPI: Update report status
-    APIServer->>NotifService: Send report notification
-    NotifService-->>FieldUser: Notify report completion
+    participant Client as Client App
+    participant API as API Gateway
+    participant Auth as Auth Service
+    participant Project as Project Service
+    participant Form as Form Service
+    participant Sample as Sample Service
+    participant Report as Report Service
+    participant DB as Database
+    participant Airtable as Airtable Integration
+    
+    Note over Client, Airtable: Project Creation and Inspection Process
+    
+    Client->>Auth: Login request (credentials or SSO)
+    Auth->>DB: Validate credentials
+    DB-->>Auth: User data
+    Auth-->>Client: Authentication token
+    
+    Client->>API: Get projects
+    API->>Auth: Validate token
+    Auth-->>API: Token valid
+    API->>Project: Get projects for user
+    Project->>DB: Query projects
+    DB-->>Project: Projects data
+    Project-->>API: Projects list
+    API-->>Client: Projects list
+    
+    Client->>API: Select project
+    API->>Project: Get project details
+    Project->>DB: Query project data
+    DB-->>Project: Project details
+    Project-->>API: Project details
+    API-->>Client: Project details
+    
+    Note over Client, DB: Form Creation and Submission
+    
+    Client->>API: Get form templates
+    API->>Form: Get templates
+    Form->>DB: Query templates
+    DB-->>Form: Template data
+    Form-->>API: Templates list
+    API-->>Client: Templates list
+    
+    Client->>API: Create form (templateId, projectId)
+    API->>Form: Create form
+    Form->>DB: Store form (draft)
+    DB-->>Form: Form created
+    Form-->>API: Form details
+    API-->>Client: Form details
+    
+    Note over Client, DB: Field Data Collection (with offline support)
+    
+    Client->>Client: Fill form data (offline capable)
+    Client->>Client: Take photos
+    
+    Client->>API: Submit form data
+    API->>Form: Update form
+    Form->>DB: Store form data
+    DB-->>Form: Confirmation
+    
+    Form->>Sample: Create samples from form
+    Sample->>DB: Store samples
+    DB-->>Sample: Samples created
+    Sample-->>Form: Samples created
+    Form-->>API: Form and samples updated
+    API-->>Client: Form submission confirmed
+    
+    Note over Client, DB: Lab Results Processing
+    
+    Client->>API: Get samples for project
+    API->>Sample: Get project samples
+    Sample->>DB: Query samples
+    DB-->>Sample: Samples data
+    Sample-->>API: Samples list
+    API-->>Client: Samples list
+    
+    Client->>API: Add lab results to sample
+    API->>Sample: Add lab results
+    Sample->>DB: Store lab results
+    DB-->>Sample: Confirmation
+    Sample-->>API: Updated sample with results
+    API-->>Client: Results added confirmation
+    
+    Note over Client, DB: Report Generation Process
+    
+    Client->>API: Get report templates
+    API->>Report: Get templates
+    Report->>DB: Query templates
+    DB-->>Report: Template data
+    Report-->>API: Templates list
+    API-->>Client: Templates list
+    
+    Client->>API: Generate report (templateId, projectId)
+    API->>Report: Generate report
+    Report->>Sample: Get samples with results
+    Sample->>DB: Query samples with results
+    DB-->>Sample: Samples data
+    Sample-->>Report: Samples with results
+    
+    Report->>Form: Get form data
+    Form->>DB: Query forms
+    DB-->>Form: Forms data
+    Form-->>Report: Form data
+    
+    Report->>DB: Store draft report
+    DB-->>Report: Report created
+    Report-->>API: Report details
+    API-->>Client: Report details
+    
+    Client->>API: Update report content
+    API->>Report: Update report
+    Report->>DB: Store updated content
+    DB-->>Report: Confirmation
+    Report-->>API: Updated report
+    API-->>Client: Report updated
+    
+    Client->>API: Approve report
+    API->>Auth: Validate permissions
+    Auth-->>API: Permissions valid
+    API->>Report: Approve report
+    Report->>DB: Update status, add signature
+    DB-->>Report: Confirmation
+    Report-->>API: Report approved
+    API-->>Client: Approval confirmation
+    
+    Client->>API: Export report (PDF)
+    API->>Report: Generate PDF
+    Report->>DB: Get report content
+    DB-->>Report: Report content
+    Report-->>API: PDF document
+    API-->>Client: PDF download
+    
+    Note over Client, Airtable: Data Synchronization
+    
+    alt Regular Scheduled Sync
+        Airtable->>API: Webhook notification (new/updated project)
+        API->>Project: Process notification
+        Project->>DB: Update project data
+        DB-->>Project: Confirmation
+    else Manual Sync
+        Client->>API: Trigger Airtable sync
+        API->>Airtable: Request data
+        Airtable-->>API: Project data
+        API->>Project: Update projects
+        Project->>DB: Store updated data
+        DB-->>Project: Confirmation
+        Project-->>API: Sync completed
+        API-->>Client: Sync results
+    end
