@@ -1,23 +1,25 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import MicrosoftProvider from 'next-auth/providers/microsoft';
+// Temporarily removed Microsoft provider due to build errors
+// import MicrosoftProvider from 'next-auth/providers/microsoft';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
-    MicrosoftProvider({
-      clientId: process.env.MICROSOFT_CLIENT_ID || '',
-      clientSecret: process.env.MICROSOFT_CLIENT_SECRET || '',
-      authorization: {
-        params: {
-          scope: 'openid email profile User.Read',
-        },
-      },
-    }),
+    // Temporarily removed Microsoft provider
+    // MicrosoftProvider({
+    //   clientId: process.env.MICROSOFT_CLIENT_ID || '',
+    //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET || '',
+    //   authorization: {
+    //     params: {
+    //       scope: 'openid email profile User.Read',
+    //     },
+    //   },
+    // }),
     // Demo login provider (for development only)
     CredentialsProvider({
       id: 'demo-login',

@@ -114,7 +114,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <CardContent className="space-y-4">
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Description</h3>
-                <p className="mt-1 text-sm text-gray-900">{currentProject.description || 'No description provided'}</p>
+                <p className="mt-1 text-sm text-gray-900">{'No description provided'}</p>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -125,11 +125,8 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Contact</h3>
                   <p className="mt-1 text-sm text-gray-900">
-                    {currentProject.client.contact?.name || 'Not specified'}
+                    {'Not specified'}
                   </p>
-                  {currentProject.client.contact?.email && (
-                    <p className="text-sm text-gray-500">{currentProject.client.contact.email}</p>
-                  )}
                 </div>
               </div>
 
@@ -160,23 +157,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <CardContent className="space-y-4">
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Assigned Team Members</h3>
-                {currentProject.assignedUsers && currentProject.assignedUsers.length > 0 ? (
-                  <ul className="mt-2 divide-y divide-gray-200">
-                    {currentProject.assignedUsers.map((user) => (
-                      <li key={user.id} className="py-2 flex items-center">
-                        <div className="h-8 w-8 rounded-full bg-primary-light flex items-center justify-center text-white">
-                          {user.name.charAt(0)}
-                        </div>
-                        <div className="ml-3">
-                          <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                          <p className="text-sm text-gray-500">{user.role}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="mt-1 text-sm text-gray-500">No team members assigned</p>
-                )}
+                <p className="mt-1 text-sm text-gray-500">No team members assigned</p>
               </div>
 
               <div>

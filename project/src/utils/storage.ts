@@ -61,7 +61,7 @@ export function getItemById<T extends StorableItem>(key: string, id: string): T 
  */
 export function removeItem(key: string, id: string): void {
   try {
-    const items = getItems(key);
+    const items = getItems<StorableItem>(key);
     const filteredItems = items.filter((item) => item.id !== id);
     localStorage.setItem(key, JSON.stringify(filteredItems));
   } catch (error) {

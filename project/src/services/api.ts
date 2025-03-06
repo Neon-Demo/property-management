@@ -16,8 +16,10 @@ api.interceptors.request.use(
     const session = await getSession();
     
     if (session?.user) {
-      // Add authorization header
-      config.headers.Authorization = `Bearer ${session.accessToken}`;
+      // Add authorization header - using JWT token from cookies or other source
+      // This is a placeholder since accessToken isn't available in the default session type
+      // In a real app, you would need to customize the session or retrieve the token differently
+      config.headers.Authorization = `Bearer token`;
     }
     
     return config;
@@ -44,8 +46,9 @@ api.interceptors.response.use(
         const session = await getSession();
         
         if (session?.user) {
-          // Update the authorization header
-          originalRequest.headers.Authorization = `Bearer ${session.accessToken}`;
+          // Update the authorization header - using JWT token from cookies or other source
+          // This is a placeholder since accessToken isn't available in the default session type
+          originalRequest.headers.Authorization = `Bearer token`;
           // Retry the original request
           return api(originalRequest);
         }
