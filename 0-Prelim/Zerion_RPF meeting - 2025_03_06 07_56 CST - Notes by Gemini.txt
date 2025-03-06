@@ -1,0 +1,25 @@
+﻿Mar 6, 2025
+Zerion/RPF meeting
+Invited tania@airpf.com Josh Snyder Joe Vetoe Sean Smith
+Attachments Zerion/RPF meeting 
+Meeting records Transcript Recording 
+
+
+Summary
+Joe Vetoe and Sean Smith decided to integrate the existing Airtable system as the data source for a new application to streamline their job scheduling and assignment process, while digitizing their current pen-and-paper data collection forms for automated report generation.  Josh Snyder proposed a $3,000 consulting arrangement to create wireframes for the application, after which the final development cost will be determined, with the finished application to be owned by the client without ongoing maintenance fees.
+
+
+Details
+* Project Scope and Airtable Integration: Joe Vetoe and Sean Smith discussed the current job scheduling and assignment process, which involves Airtable and Google Calendar (00:00:00).  They determined that while streamlining the process with a custom solution built in a centralized portal would be beneficial (00:02:43), they are not willing to remove Airtable from their workflow due to its user-friendliness and familiarity (00:03:36). They agreed to use Airtable as the data source for the new application (00:04:26).
+* Data Collection and Workflow:  Sean Smith described their current pen-and-paper data collection process, which includes various forms depending on the type of job (e.g., asbestos only, full hazmat) (00:04:26). They want to digitize these forms and integrate them into the new application, with the aim of auto-populating reports with the collected data (00:06:12).  The final reports are PDFs, with the goal of automating report generation based on the collected field data, reducing manual data entry and report creation time (00:09:35).
+* Application Development and Cost: Josh Snyder proposed a three-thousand-dollar consulting arrangement to create wireframes for the application, which would then be used to estimate the total development cost (00:14:31). This process will be collaborative, providing regular updates and allowing for adjustments (00:15:34).  They confirmed that the application, once built, would be owned by the client with no ongoing annual maintenance costs due to the use of AI code generation and a built-in maintenance engine (00:17:29).  The final cost will depend on the software's complexity and hosting requirements (00:18:29).
+
+
+Suggested next steps
+* Joe Vetoe will build a custom application to digitize the current pen-and-paper forms used for data collection during inspections, auto-populating reports with data from the digitized forms to minimize manual data entry and report generation. This application will integrate with Airtable as the data source.
+* Josh Snyder will provide Joe Vetoe with sample reports and relevant documentation.
+* Joe Vetoe will create wireframes for the application, showcasing its design and functionality, for a fee of $3000. This will also determine the final cost of building the application.
+
+
+You should review Gemini's notes to make sure they're accurate. Get tips and learn how Gemini takes notes
+Please provide feedback about using Gemini to take notes in a short survey.

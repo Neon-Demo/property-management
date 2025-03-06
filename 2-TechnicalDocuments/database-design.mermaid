@@ -1,0 +1,231 @@
+erDiagram
+    USERS {
+        uuid id PK
+        string email UK
+        string first_name
+        string last_name
+        string avatar_url
+        enum status
+        datetime created_at
+        datetime updated_at
+        datetime last_login
+        string airtable_id FK
+    }
+    
+    ROLES {
+        uuid id PK
+        string name UK
+        string description
+        jsonb permissions
+        datetime created_at
+        datetime updated_at
+    }
+    
+    USER_ROLES {
+        uuid id PK
+        uuid user_id FK
+        uuid role_id FK
+        datetime created_at
+    }
+    
+    JOBS {
+        uuid id PK
+        string title
+        string description
+        string location
+        jsonb location_meta
+        enum status
+        datetime scheduled_start
+        datetime scheduled_end
+        uuid client_id FK
+        uuid created_by FK
+        datetime created_at
+        datetime updated_at
+        string airtable_id FK
+    }
+    
+    JOB_ASSIGNMENTS {
+        uuid id PK
+        uuid job_id FK
+        uuid user_id FK
+        string role
+        boolean is_primary
+        datetime created_at
+        datetime updated_at
+        string airtable_id FK
+    }
+    
+    CLIENTS {
+        uuid id PK
+        string name
+        string address
+        string contact_person
+        string email
+        string phone
+        jsonb metadata
+        datetime created_at
+        datetime updated_at
+        string airtable_id FK
+    }
+    
+    FORM_TEMPLATES {
+        uuid id PK
+        string name
+        string description
+        jsonb schema
+        enum status
+        uuid created_by FK
+        datetime created_at
+        datetime updated_at
+        string airtable_id FK
+    }
+    
+    FORMS {
+        uuid id PK
+        uuid template_id FK
+        uuid job_id FK
+        string title
+        jsonb data
+        enum status
+        uuid created_by FK
+        uuid last_updated_by FK
+        datetime created_at
+        datetime updated_at
+        datetime submitted_at
+        string airtable_id FK
+    }
+    
+    FORM_ATTACHMENTS {
+        uuid id PK
+        uuid form_id FK
+        string file_path
+        string file_name
+        string file_type
+        integer file_size
+        uuid uploaded_by FK
+        datetime created_at
+        string airtable_id FK
+    }
+    
+    REPORT_TEMPLATES {
+        uuid id PK
+        string name
+        string description
+        jsonb schema
+        string template_path
+        uuid created_by FK
+        datetime created_at
+        datetime updated_at
+        string airtable_id FK
+    }
+    
+    REPORTS {
+        uuid id PK
+        uuid template_id FK
+        uuid job_id FK
+        string title
+        string file_path
+        enum status
+        uuid created_by FK
+        uuid approved_by FK
+        datetime created_at
+        datetime updated_at
+        datetime approved_at
+        string airtable_id FK
+    }
+    
+    REPORT_FORMS {
+        uuid id PK
+        uuid report_id FK
+        uuid form_id FK
+        datetime created_at
+    }
+    
+    NOTIFICATIONS {
+        uuid id PK
+        uuid user_id FK
+        string title
+        string message
+        string link
+        boolean is_read
+        enum type
+        datetime created_at
+        datetime read_at
+    }
+    
+    CALENDAR_INTEGRATIONS {
+        uuid id PK
+        uuid user_id FK
+        enum provider
+        jsonb credentials
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+    
+    SYNC_LOGS {
+        uuid id PK
+        string entity_type
+        string entity_id
+        enum operation
+        boolean success
+        jsonb details
+        datetime created_at
+    }
+    
+    WEBHOOKS {
+        uuid id PK
+        string url
+        jsonb events
+        string secret
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+    
+    FILES {
+        uuid id PK
+        string path
+        string filename
+        string mime_type
+        integer size
+        uuid uploaded_by FK
+        datetime created_at
+    }
+    
+    AUDIT_LOGS {
+        uuid id PK
+        uuid user_id FK
+        string action
+        string entity_type
+        string entity_id
+        jsonb old_values
+        jsonb new_values
+        string ip_address
+        datetime created_at
+    }
+
+    USERS ||--o{ USER_ROLES : "has"
+    ROLES ||--o{ USER_ROLES : "assigned to"
+    USERS ||--o{ JOBS : "creates"
+    USERS ||--o{ JOB_ASSIGNMENTS : "assigned to"
+    JOBS ||--o{ JOB_ASSIGNMENTS : "has"
+    CLIENTS ||--o{ JOBS : "has"
+    USERS ||--o{ FORM_TEMPLATES : "creates"
+    FORM_TEMPLATES ||--o{ FORMS : "based on"
+    JOBS ||--o{ FORMS : "has"
+    USERS ||--o{ FORMS : "creates"
+    USERS ||--o{ FORMS : "updates"
+    FORMS ||--o{ FORM_ATTACHMENTS : "has"
+    USERS ||--o{ FORM_ATTACHMENTS : "uploads"
+    USERS ||--o{ REPORT_TEMPLATES : "creates"
+    REPORT_TEMPLATES ||--o{ REPORTS : "based on"
+    JOBS ||--o{ REPORTS : "has"
+    USERS ||--o{ REPORTS : "creates"
+    USERS ||--o{ REPORTS : "approves"
+    REPORTS ||--o{ REPORT_FORMS : "includes"
+    FORMS ||--o{ REPORT_FORMS : "included in"
+    USERS ||--o{ NOTIFICATIONS : "receives"
+    USERS ||--o{ CALENDAR_INTEGRATIONS : "has"
+    USERS ||--o{ AUDIT_LOGS : "generates"
+    USERS ||--o{ FILES : "uploads"

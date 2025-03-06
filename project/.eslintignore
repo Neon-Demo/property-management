@@ -1,0 +1,18 @@
+# Ignore build files
+.next/
+out/
+build/
+
+# Ignore node modules
+node_modules/
+
+# Ignore test files
+coverage/
+*.test.js
+*.test.tsx
+*.test.ts
+
+# Ignore config files
+next.config.js
+jest.config.js
+jest.setup.js
