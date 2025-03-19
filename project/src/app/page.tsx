@@ -3,7 +3,7 @@ export default function Home() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
         <h1 className="text-3xl font-bold text-center text-gray-800">
-          RPF Enterprise Application
+          Enterprise Property Management
         </h1>
         <p className="mt-4 text-center text-gray-600">
           Environmental Services Management Platform
